@@ -112,4 +112,21 @@
   .font-light {
     font-weight: 300;
   }
+
+  /* ── Hide scrollbar across all browsers ── */
+  .hide-scrollbar {
+    scrollbar-width: none;       /* Firefox */
+    -ms-overflow-style: none;    /* IE / Edge */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;               /* Chrome / Safari / Opera */
+  }
+
+  /* ── GPU compositing hints ── */
+  .will-change-transform {
+    will-change: transform;
+  }
+  .will-change-opacity {
+    will-change: opacity;
+  }
 }

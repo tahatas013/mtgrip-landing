@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Activity, Shield, Maximize, RefreshCw } from 'lucide-react';
 import mtgripContent from '../data/mtgrip_content.json';
 
@@ -10,13 +10,24 @@ const ICONS = {
   rotation: RefreshCw,
 };
 
-/* ── Single feature card ── */
-const FeatureCard = ({ pillar, index, total }) => {
+/* ── Single feature card — content animates based on active state ── */
+const FeatureCard = ({ pillar, index, total, isActive }) => {
   const Icon = ICONS[pillar.id] ?? Activity;
 
   return (
-    <div className="w-screen h-full flex items-center justify-center px-6 md:px-16 lg:px-24 shrink-0">
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-16 items-center">
+    <div
+      className="w-screen h-full flex items-center justify-center px-6 md:px-16 lg:px-24 shrink-0"
+      style={{ scrollSnapAlign: 'start' }}
+    >
+      <motion.div
+        className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-16 items-center"
+        animate={{
+          opacity: isActive ? 1 : 0.32,
+          y: isActive ? 0 : 14,
+        }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        style={{ willChange: 'transform, opacity' }}
+      >
 
         {/* Left: icon tile + metadata */}
         <div className="flex flex-row md:flex-col items-center md:items-start gap-5 md:gap-6">
@@ -69,44 +80,39 @@ const FeatureCard = ({ pillar, index, total }) => {
           </div>
         </div>
 
-      </div>
+      </motion.div>
     </div>
   );
 };
 
-/* ── Horizontal Slider section ── */
+/* ── Horizontal Slider — native touch scroll, non-blocking ── */
 const HorizontalSlider = () => {
   const { specs } = mtgripContent;
   const pillars = specs.pillars;
-  const N = pillars.length; // 4
+  const N = pillars.length;
 
-  const containerRef = useRef(null);
+  const scrollRef = useRef(null);
   const [activeCard, setActiveCard] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const playRef = useRef(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  /* Vertical scroll → horizontal translate */
-  const x = useTransform(scrollYProgress, [0, 1], ['0vw', `${-(N - 1) * 100}vw`]);
-
-  /* Track active card index */
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    setActiveCard(Math.min(N - 1, Math.max(0, Math.round(latest * (N - 1)))));
-  });
-
-  /* Jump scroll to a specific card */
-  const scrollToCard = useCallback((index) => {
-    if (!containerRef.current) return;
-    const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
-    const scrollable = containerRef.current.offsetHeight - window.innerHeight;
-    window.scrollTo({ top: containerTop + (index / (N - 1)) * scrollable, behavior: 'smooth' });
+  /* Derive active card index from native horizontal scroll position */
+  const handleScroll = useCallback(() => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, clientWidth } = scrollRef.current;
+    setActiveCard(Math.min(N - 1, Math.max(0, Math.round(scrollLeft / clientWidth))));
   }, [N]);
 
-  /* Auto-play: advances one card every 2.8 s */
+  /* Jump to card by programmatic scroll */
+  const scrollToCard = useCallback((index) => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollTo({
+      left: index * scrollRef.current.clientWidth,
+      behavior: 'smooth',
+    });
+  }, []);
+
+  /* Auto-play: advance one card every 2.8 s */
   useEffect(() => {
     if (isPlaying) {
       playRef.current = setInterval(() => {
@@ -124,27 +130,59 @@ const HorizontalSlider = () => {
   }, [isPlaying, scrollToCard, N]);
 
   return (
-    <section ref={containerRef} className="relative w-full h-[400vh]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#F5F5F7]">
+    <motion.section
+      className="relative w-full h-screen flex flex-col bg-[#F5F5F7]"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    >
 
-        {/* Section label */}
-        <div className="absolute top-8 left-0 right-0 flex justify-center z-20 pointer-events-none">
-          <span className="text-hud text-silver/50 tracking-[0.45em]">// SİSTEM ÖZELLİKLERİ</span>
+      {/* Section label */}
+      <div className="absolute top-8 left-0 right-0 flex justify-center z-20 pointer-events-none">
+        <span className="text-hud text-silver/50 tracking-[0.45em]">// SİSTEM ÖZELLİKLERİ</span>
+      </div>
+
+      {/* ── Native horizontal scroll strip ──
+          • overflow-x: scroll   → touch-swipeable, does NOT block vertical page scroll
+          • scroll-snap-type     → snaps cleanly to card boundaries
+          • overscrollBehaviorX  → prevents scroll chaining at left/right edges only  */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex-1 flex overflow-x-scroll hide-scrollbar"
+        style={{
+          scrollSnapType: 'x mandatory',
+          WebkitOverflowScrolling: 'touch',
+          overscrollBehaviorX: 'contain',
+        }}
+      >
+        {pillars.map((pillar, i) => (
+          <FeatureCard
+            key={pillar.id}
+            pillar={pillar}
+            index={i}
+            total={N}
+            isActive={activeCard === i}
+          />
+        ))}
+      </div>
+
+      {/* ── Bottom navigation ── */}
+      <div className="flex flex-col items-center gap-3 pb-8 pt-3">
+
+        {/* Apple-style progress bar */}
+        <div className="w-40 h-[3px] bg-silver/15 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-mtgrip rounded-full origin-left"
+            animate={{ scaleX: (activeCard + 1) / N }}
+            style={{ width: '100%', willChange: 'transform' }}
+            transition={{ type: 'spring', stiffness: 380, damping: 36 }}
+          />
         </div>
 
-        {/* Horizontal cards strip */}
-        <motion.div
-          className="absolute inset-0 flex"
-          style={{ x, width: `${N * 100}vw` }}
-        >
-          {pillars.map((pillar, i) => (
-            <FeatureCard key={pillar.id} pillar={pillar} index={i} total={N} />
-          ))}
-        </motion.div>
-
-        {/* ── Apple-style navigation bar ── */}
-        <div className="absolute bottom-10 left-0 right-0 flex items-center justify-center gap-3 z-30">
-          {/* Progress dots */}
+        {/* Pill dots + separator + play/pause */}
+        <div className="flex items-center gap-3">
           {pillars.map((_, i) => (
             <button
               key={i}
@@ -159,10 +197,8 @@ const HorizontalSlider = () => {
             />
           ))}
 
-          {/* Separator */}
           <span className="inline-block w-px h-4 bg-silver/20 mx-1" />
 
-          {/* Play / Pause */}
           <button
             onClick={() => setIsPlaying(p => !p)}
             aria-label={isPlaying ? 'Duraklat' : 'Oynat'}
@@ -180,25 +216,25 @@ const HorizontalSlider = () => {
             )}
           </button>
         </div>
-
-        {/* Side rail (desktop only) */}
-        <div className="absolute right-5 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-2 z-20">
-          {pillars.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToCard(i)}
-              className="rounded-full transition-all duration-300 focus:outline-none"
-              style={{
-                width: '3px',
-                height: activeCard === i ? '24px' : '10px',
-                background: activeCard === i ? '#FFB800' : 'rgba(134,134,139,0.25)',
-              }}
-            />
-          ))}
-        </div>
-
       </div>
-    </section>
+
+      {/* Side rail (desktop only) */}
+      <div className="absolute right-5 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-2 z-20">
+        {pillars.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollToCard(i)}
+            className="rounded-full transition-all duration-300 focus:outline-none"
+            style={{
+              width: '3px',
+              height: activeCard === i ? '24px' : '10px',
+              background: activeCard === i ? '#FFB800' : 'rgba(134,134,139,0.25)',
+            }}
+          />
+        ))}
+      </div>
+
+    </motion.section>
   );
 };
 

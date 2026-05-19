@@ -1,7 +1,8 @@
 import React from 'react';
 import Hero from './components/Hero';
 import HorizontalSlider from './components/HorizontalSlider';
-import ProductShowcase from './components/ProductShowcase';
+import ProductFeatures from './components/ProductFeatures';
+import InstallVideo from './components/InstallVideo';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
     >
       <Hero />
       <HorizontalSlider />
-      <ProductShowcase />
+      <ProductFeatures />
+      <InstallVideo />
     </main>
   );
 }

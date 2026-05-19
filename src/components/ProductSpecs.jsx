@@ -111,16 +111,17 @@ const ProductSpecs = () => {
 
               {/* Blueprint content */}
               <div className="p-8 md:p-12">
-                {/* Header row */}
-                <div className="flex items-center gap-4 mb-8 border-b border-[#E5E5E5] pb-6">
-                  <div className="p-3 rounded-lg bg-[#F5F5F7] border border-[#E5E5E5]">
-                    {getIconForPillar(selectedPillar.id, 24)}
-                  </div>
-                  <div>
-                    <span className="text-silver font-mono text-[10px] tracking-[0.3em] uppercase block mb-1">
+
+                {/* Centered Logo + Title Block (takes ~50% width, centered) */}
+                <div className="flex justify-center mb-8 border-b border-[#E5E5E5] pb-8">
+                  <div className="w-full max-w-md flex flex-col items-center text-center">
+                    <div className="p-5 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E5] mb-5">
+                      {getIconForPillar(selectedPillar.id, 48)}
+                    </div>
+                    <span className="text-silver font-mono text-[10px] tracking-[0.3em] uppercase block mb-2">
                       SYS.{selectedPillar.id.substring(0, 3).toUpperCase()} — BLUEPRINT
                     </span>
-                    <h3 className="text-2xl md:text-3xl font-black text-charcoal uppercase leading-tight tracking-tight">
+                    <h3 className="text-3xl md:text-4xl font-black text-charcoal uppercase leading-tight tracking-tight">
                       {selectedPillar.title}
                     </h3>
                   </div>

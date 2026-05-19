@@ -11,15 +11,15 @@ const CORNER_CLASS = {
 
 const springEase = (t) => 1 - Math.pow(1 - t, 5);
 
-/* ── Logo: MT charcoal / GRIP yellow, extra-light, wide tracked ── */
+/* ── Logo: MT charcoal / GRIP yellow ── */
 const MTGripLogo = () => (
   <div
     className="absolute top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none select-none"
     style={{
       fontFamily: 'Inter, sans-serif',
-      fontWeight: 200,
-      fontSize: '11px',
-      letterSpacing: '0.58em',
+      fontWeight: 700,
+      fontSize: '28px',
+      letterSpacing: '0.35em',
       textTransform: 'uppercase',
       lineHeight: 1,
     }}
@@ -45,10 +45,10 @@ const Hero = () => {
   /* ── Both fade as curtains part ── */
   const curtainOpacity = useTransform(scrollYProgress, [0, 0.48, 0.76], [1, 0.80, 0]);
 
-  /* ── Product: starts tiny behind curtains, emerges ── */
-  const imgScale   = useTransform(scrollYProgress, [0, 0.62], [0.48, 1.18], { ease: springEase });
-  const imgOpacity = useTransform(scrollYProgress, [0, 0.28], [0.12, 1]);
-  const imgY       = useTransform(scrollYProgress, [0, 0.62], ['8%', '-6%'], { ease: springEase });
+  /* ── Product: starts FULLY HIDDEN, emerges only as curtains part ── */
+  const imgScale   = useTransform(scrollYProgress, [0.15, 0.62], [0.4, 1.18], { ease: springEase });
+  const imgOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1]);
+  const imgY       = useTransform(scrollYProgress, [0.15, 0.62], ['12%', '-6%'], { ease: springEase });
 
   /* ── CTA fades in after curtains part ── */
   const ctaOpacity = useTransform(scrollYProgress, [0.40, 0.72], [0, 1]);
@@ -63,17 +63,7 @@ const Hero = () => {
         {/* Subtle stage light */}
         <div className="absolute inset-0 stage-light" />
 
-        {/* Technical corner HUD */}
-        {meta?.hero_annotations?.map((ann) => (
-          <div
-            key={ann.corner}
-            className={`absolute z-50 text-hud text-silver/38 pointer-events-none ${CORNER_CLASS[ann.corner]}`}
-          >
-            {ann.lines.map((line, i) => (
-              <div key={i} className={i === 0 ? 'text-mtgrip/48' : ''}>{line}</div>
-            ))}
-          </div>
-        ))}
+
 
         {/* Logo */}
         <MTGripLogo />
