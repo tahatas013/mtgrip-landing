@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-light: #F5F5F7;
+  --color-charcoal: #1D1D1F;
+  --color-charcoal-light: #424245;
+  --color-silver: #86868B;
+  --color-silver-light: #D2D2D7;
+  --color-card-border: #E5E5E5;
+  --color-mtgrip: #FFB800;
+
+  --font-sans: "Inter", sans-serif;
+  --font-logo: "Inter", sans-serif;
+  --font-mono: "Space Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply text-charcoal font-sans;
+    overflow-x: clip;
+    min-height: 100vh;
+    background-color: #F5F5F7;
+  }
+
+  ::selection {
+    background: #FFB800;
+    color: #1D1D1F;
+  }
+}
+
+@layer utilities {
+  /* ── Glassmorphism card ── */
+  .glass {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid #E5E5E5;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  }
+
+  /* ── Gradient text: MTGrip Yellow → Industrial Silver ── */
+  .text-gradient-industrial {
+    background: linear-gradient(
+      120deg,
+      #FFB800 0%,
+      #C8A000 22%,
+      #86868B 58%,
+      #D2D2D7 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Stage ambient floor light ── */
+  .stage-light {
+    background:
+      radial-gradient(ellipse at 50% 90%, rgba(255, 184, 0, 0.055) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.55) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* ── Soft drop-shadow for product images ── */
+  .ambient-shadow {
+    filter: drop-shadow(0 28px 44px rgba(0, 0, 0, 0.08))
+            drop-shadow(0 6px 10px rgba(0, 0, 0, 0.04));
+  }
+
+  /* ── Blend product images with light background ── */
+  .product-blend {
+    mix-blend-mode: multiply;
+  }
+
+  /* ── Space Mono HUD label — blueprint precision ── */
+  .text-hud {
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    line-height: 1.65;
+    text-transform: uppercase;
+  }
+
+  /* ── Blueprint graph paper ── */
+  .blueprint-grid {
+    background-size: 20px 20px;
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  }
+
+  /* ── Spec chip: default & accent ── */
+  .spec-chip {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid #E5E5E5;
+    background: rgba(255, 255, 255, 0.70);
+    color: #424245;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .spec-chip-accent {
+    border-color: rgba(255, 184, 0, 0.35);
+    background: rgba(255, 184, 0, 0.08);
+    color: #C8A000;
+    font-weight: 700;
+  }
+
+  .font-light {
+    font-weight: 300;
+  }
+}

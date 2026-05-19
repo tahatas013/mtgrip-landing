@@ -1,0 +1,114 @@
+{
+  "brand": {
+    "name": "MTGrip",
+    "tagline": "Sürüş İçin Hassas Mühendislik."
+  },
+  "hero": {
+    "headline_left": "YOLA",
+    "headline_right": "HÜKMEDİN",
+    "subheadline": "Havacılık sınıfı alüminyum gövde ve 3-eksenli titreşim sönümleme teknolojisi ile donatılmış nihai akıllı telefon sabitleme modülü.",
+    "ctaText": "Sistemi İncele"
+  },
+  "meta": {
+    "hero_annotations": [
+      { "corner": "tl", "lines": ["REF: MG-2025-001", "X: 48.234°N  Y: 17.082°E"] },
+      { "corner": "tr", "lines": ["TOL: ±0.01mm", "REV-C  //  AL-6061-T6"] },
+      { "corner": "bl", "lines": ["MTGRIP SYSTEMS", "STAGE 01  /  HERO"] },
+      { "corner": "br", "lines": ["ISO 10816 CERT.", "SER: MTG-PRO-2025"] }
+    ]
+  },
+  "specs": {
+    "title": "Sistem Spesifikasyonları",
+    "pillars": [
+      {
+        "id": "vibration",
+        "title": "4 Yastıklı Titreşim Sönümleyici",
+        "description": "Elastomerik polimer yastıklar ile 20–500Hz frekans bandında rezonansı %98.5 oranında pasifize eden 3-eksenli izolasyon mimarisi.",
+        "stage_annotation": {
+          "serial": "MG-VIB-001",
+          "coords": "X:48.23  Y:12.07  Z:+0.00",
+          "tolerance": "±0.02mm"
+        },
+        "back_content": {
+          "subtitle": "Kinetik Absorpsiyon Verisi",
+          "details": "OIS mekanizmalarını korumak için kalibre edilmiş dörtlü yastıklama düzeneği; motorize titreşim, yol darbesi ve aerodinamik türbülanslara karşı tam spektrum filtreleme sağlar."
+        },
+        "blueprint": {
+          "material": "ELASTOMER-TPE",
+          "tolerance": "±0.02mm",
+          "finish": "VULCANIZED",
+          "status": "CERT. ISO 10816"
+        }
+      },
+      {
+        "id": "lock",
+        "title": "Easy Lock Clip",
+        "description": "Yüksek G-kuvveti dayanımına sahip, tek elli operasyonlar için optimize edilmiş çift aşamalı kilitleme sistemi.",
+        "stage_annotation": {
+          "serial": "MG-LCK-002",
+          "coords": "X:15.00  Y:08.33  Z:-0.05",
+          "tolerance": "±0.05mm"
+        },
+        "back_content": {
+          "subtitle": "Dayanım Standartları",
+          "details": "Aerodinamik sürtünme testlerinden geçirilmiş, 15G ivmelenme ve şiddetli yanal darbe toleransına sahip paslanmaz çelik kilitleme tırnakları. 0.3s kilit süresi."
+        },
+        "blueprint": {
+          "material": "INOX-304",
+          "tolerance": "±0.05mm",
+          "finish": "PASSIVATED",
+          "status": "15G VERIFIED"
+        }
+      },
+      {
+        "id": "universal",
+        "title": "Modüler Bağlantı",
+        "description": "22mm, 25.4mm ve 32mm gidon çapları için milimetrik toleransla üretilmiş polikarbonat adaptör ringlü evrensel şasi.",
+        "stage_annotation": {
+          "serial": "MG-UNI-003",
+          "coords": "X:00.00  Y:32.00  Z:+1.20",
+          "tolerance": "±0.10mm"
+        },
+        "back_content": {
+          "subtitle": "Donanım Uyumluluğu",
+          "details": "Ayna montajı için ekstra M8/M10 vida entegrasyon arayüzü. Polikarbonat adaptör ringleri tüm yüzey profillerine milimetrik hassasiyetle uyum sağlar."
+        },
+        "blueprint": {
+          "material": "PC-GF30",
+          "tolerance": "±0.10mm",
+          "finish": "RAW / ANODIZED",
+          "status": "MULTI-FIT OK"
+        }
+      },
+      {
+        "id": "rotation",
+        "title": "Küresel Mafsal — 360°",
+        "description": "CNC işlenmiş AL-6061 alüminyum somun, küresel eklemi dilediğiniz açıda rijit biçimde kilitler. O-ring contalar toz ve sıvı girişini engeller.",
+        "stage_annotation": {
+          "serial": "MG-ROT-004",
+          "coords": "X:360.0  Y:00.00  Z:±90.0",
+          "tolerance": "±0.05mm"
+        },
+        "back_content": {
+          "subtitle": "Ergonomik Yönlendirme",
+          "details": "Mikro-tırtıklı yüzey dokusuna sahip küresel mafsal sistemi, eksen etrafında sürtünmesiz 360° kalibrasyon ve tek çeyrek tur kilitleme imkânı sunar."
+        },
+        "blueprint": {
+          "material": "AL-6061-T6",
+          "tolerance": "±0.05mm",
+          "finish": "HARD ANODIZED",
+          "status": "IP65 SEALED"
+        }
+      }
+    ]
+  },
+  "showcase": {
+    "title": "Endüstriyel Mükemmellik.",
+    "labels": [
+      { "text": "AL-6061 CNC GÖVDE", "angle": 45 },
+      { "text": "TİTANYUM KAPLI VİDALAR", "angle": 135 },
+      { "text": "ELASTOMER YASTIKLAR", "angle": 225 },
+      { "text": "ANTİ-ŞOK SÜSPANSİYON", "angle": 315 }
+    ]
+  }
+}

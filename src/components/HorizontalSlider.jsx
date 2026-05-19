@@ -1,0 +1,205 @@
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { Activity, Shield, Maximize, RefreshCw } from 'lucide-react';
+import mtgripContent from '../data/mtgrip_content.json';
+
+const ICONS = {
+  vibration: Activity,
+  lock: Shield,
+  universal: Maximize,
+  rotation: RefreshCw,
+};
+
+/* ── Single feature card ── */
+const FeatureCard = ({ pillar, index, total }) => {
+  const Icon = ICONS[pillar.id] ?? Activity;
+
+  return (
+    <div className="w-screen h-full flex items-center justify-center px-6 md:px-16 lg:px-24 shrink-0">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-16 items-center">
+
+        {/* Left: icon tile + metadata */}
+        <div className="flex flex-row md:flex-col items-center md:items-start gap-5 md:gap-6">
+          <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-3xl bg-white border border-card-border shadow-sm flex items-center justify-center shrink-0">
+            <Icon size={36} className="text-mtgrip" strokeWidth={1.25} />
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-hud text-silver/45 tracking-[0.25em]">
+              {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+            </span>
+            {pillar.stage_annotation && (
+              <div className="text-hud text-silver/35 leading-relaxed hidden md:block mt-2">
+                <div className="text-mtgrip/50">{pillar.stage_annotation.serial}</div>
+                <div>TOL: {pillar.stage_annotation.tolerance}</div>
+                <div className="mt-1 text-silver/25">{pillar.stage_annotation.coords}</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right: title, description, spec chips */}
+        <div className="flex flex-col gap-4 md:gap-5">
+          <h2
+            className="font-black text-charcoal uppercase tracking-tight leading-none"
+            style={{ fontSize: 'clamp(2rem, 4.5vw, 4rem)' }}
+          >
+            {pillar.title}
+          </h2>
+
+          <p className="text-silver font-light leading-relaxed" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)' }}>
+            {pillar.description}
+          </p>
+
+          {pillar.back_content?.details && (
+            <p className="text-silver/70 font-light text-sm leading-relaxed hidden md:block max-w-lg">
+              {pillar.back_content.details}
+            </p>
+          )}
+
+          {/* Blueprint spec chips */}
+          <div className="flex flex-wrap gap-2 mt-1">
+            {Object.entries(pillar.blueprint).map(([key, val]) => (
+              <span
+                key={key}
+                className={key === 'status' ? 'spec-chip spec-chip-accent' : 'spec-chip'}
+              >
+                {key.toUpperCase()}: {val}
+              </span>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+/* ── Horizontal Slider section ── */
+const HorizontalSlider = () => {
+  const { specs } = mtgripContent;
+  const pillars = specs.pillars;
+  const N = pillars.length; // 4
+
+  const containerRef = useRef(null);
+  const [activeCard, setActiveCard] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  /* Vertical scroll → horizontal translate */
+  const x = useTransform(scrollYProgress, [0, 1], ['0vw', `${-(N - 1) * 100}vw`]);
+
+  /* Track active card index */
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    setActiveCard(Math.min(N - 1, Math.max(0, Math.round(latest * (N - 1)))));
+  });
+
+  /* Jump scroll to a specific card */
+  const scrollToCard = useCallback((index) => {
+    if (!containerRef.current) return;
+    const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
+    const scrollable = containerRef.current.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: containerTop + (index / (N - 1)) * scrollable, behavior: 'smooth' });
+  }, [N]);
+
+  /* Auto-play: advances one card every 2.8 s */
+  useEffect(() => {
+    if (isPlaying) {
+      playRef.current = setInterval(() => {
+        setActiveCard(prev => {
+          const next = prev + 1;
+          if (next >= N) { setIsPlaying(false); return prev; }
+          scrollToCard(next);
+          return next;
+        });
+      }, 2800);
+    } else {
+      clearInterval(playRef.current);
+    }
+    return () => clearInterval(playRef.current);
+  }, [isPlaying, scrollToCard, N]);
+
+  return (
+    <section ref={containerRef} className="relative w-full h-[400vh]">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#F5F5F7]">
+
+        {/* Section label */}
+        <div className="absolute top-8 left-0 right-0 flex justify-center z-20 pointer-events-none">
+          <span className="text-hud text-silver/50 tracking-[0.45em]">// SİSTEM ÖZELLİKLERİ</span>
+        </div>
+
+        {/* Horizontal cards strip */}
+        <motion.div
+          className="absolute inset-0 flex"
+          style={{ x, width: `${N * 100}vw` }}
+        >
+          {pillars.map((pillar, i) => (
+            <FeatureCard key={pillar.id} pillar={pillar} index={i} total={N} />
+          ))}
+        </motion.div>
+
+        {/* ── Apple-style navigation bar ── */}
+        <div className="absolute bottom-10 left-0 right-0 flex items-center justify-center gap-3 z-30">
+          {/* Progress dots */}
+          {pillars.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToCard(i)}
+              aria-label={`Kart ${i + 1}`}
+              className="transition-all duration-300 rounded-full focus:outline-none"
+              style={{
+                width:      activeCard === i ? '20px' : '6px',
+                height:     '6px',
+                background: activeCard === i ? '#FFB800' : 'rgba(134,134,139,0.35)',
+              }}
+            />
+          ))}
+
+          {/* Separator */}
+          <span className="inline-block w-px h-4 bg-silver/20 mx-1" />
+
+          {/* Play / Pause */}
+          <button
+            onClick={() => setIsPlaying(p => !p)}
+            aria-label={isPlaying ? 'Duraklat' : 'Oynat'}
+            className="w-6 h-6 flex items-center justify-center text-silver/45 hover:text-charcoal transition-colors duration-200 focus:outline-none"
+          >
+            {isPlaying ? (
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
+                <rect x="0" y="0" width="3.5" height="12" rx="1" />
+                <rect x="6.5" y="0" width="3.5" height="12" rx="1" />
+              </svg>
+            ) : (
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
+                <path d="M0 0L10 6L0 12Z" />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Side rail (desktop only) */}
+        <div className="absolute right-5 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-2 z-20">
+          {pillars.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToCard(i)}
+              className="rounded-full transition-all duration-300 focus:outline-none"
+              style={{
+                width: '3px',
+                height: activeCard === i ? '24px' : '10px',
+                background: activeCard === i ? '#FFB800' : 'rgba(134,134,139,0.25)',
+              }}
+            />
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+export default HorizontalSlider;
