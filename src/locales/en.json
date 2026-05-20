@@ -1,0 +1,99 @@
+{
+  "hero": {
+    "title_part1": "Vibration-Free Ride,",
+    "title_part2": "Maximum Confidence.",
+    "subtitle": "Aviation-grade aluminum body and 3-axis vibration damping system.",
+    "cta": "Explore Now",
+    "trinity": {
+      "vib": {
+        "title": "Vibration Damper",
+        "desc": "Filters 98.5% of high-frequency vibrations with a 4-pad elastomer system."
+      },
+      "lock": {
+        "title": "Secure Lock",
+        "desc": "Dual-stage mechanism locking in 0.3 seconds with one hand. 15G impact resistance."
+      },
+      "univ": {
+        "title": "Universal Fit",
+        "desc": "22mm–32mm handlebar and mirror mount. Compatible with all motorcycles, bicycles, and scooters."
+      }
+    }
+  },
+  "usecases": {
+    "hud": "// USE CASES",
+    "title": "On Every Road, For Every Vehicle.",
+    "placeholder": "Add Photo",
+    "items": {
+      "motorcycle": {
+        "title": "Motorcycle",
+        "desc": "Full protection against high speed and vibration."
+      },
+      "scooter": {
+        "title": "Scooter",
+        "desc": "Safe navigation for city rides."
+      },
+      "atv": {
+        "title": "ATV",
+        "desc": "Maximum durability in off-road conditions."
+      },
+      "bicycle": {
+        "title": "Bicycle",
+        "desc": "Lightweight mount, strong grip."
+      }
+    }
+  },
+  "specs": {
+    "hud": "// TECHNICAL DETAILS",
+    "title": "Every Part, An Engineering Decision.",
+    "annotations": {
+      "body": {
+        "label": "CNC AL-6061 BODY",
+        "desc": "Aviation-grade aluminum"
+      },
+      "screws": {
+        "label": "TITANIUM SCREWS",
+        "desc": "Rust-proof, corrosion-resistant"
+      },
+      "module": {
+        "label": "ELASTOMER MODULE",
+        "desc": "4-pad vibration damping"
+      },
+      "clip": {
+        "label": "EASY LOCK CLIP",
+        "desc": "One-handed 0.3s locking"
+      }
+    },
+    "trust": {
+      "title": "Why MTGrip?",
+      "subtitle": "Every component is designed with engineering data tested in real road conditions.",
+      "facts": {
+        "alloy": { "label": "AL-6061 Alloy", "desc": "Aviation-grade aluminum body" },
+        "vib": { "label": "98.5% Vibration Absorption", "desc": "Full isolation in the 20–500Hz frequency band" },
+        "ip": { "label": "IP65 Water Resistance", "desc": "Dust and liquid protection with O-ring seals" },
+        "shock": { "label": "15G Impact Resistance", "desc": "Lock tested under extreme conditions" },
+        "ball": { "label": "360° Ball Joint", "desc": "CNC-machined, frictionless angle adjustment" },
+        "mount": { "label": "Universal Mounting", "desc": "Includes 22mm–32mm handlebar + mirror adapters" }
+      }
+    }
+  },
+  "install": {
+    "hud": "// INSTALLATION",
+    "title": "Mount in 60 Seconds.",
+    "play": "Watch System",
+    "playing": "INSTALLATION VIDEO",
+    "steps": {
+      "step1": {
+        "title": "Adapter Selection",
+        "desc": "Choose the polycarbonate ring matching your handlebar."
+      },
+      "step2": {
+        "title": "Mounting",
+        "desc": "Tighten the clamp and adjust the ball joint."
+      },
+      "step3": {
+        "title": "Locking",
+        "desc": "Place your phone and lock it in 0.3s."
+      }
+    }
+  }
+}

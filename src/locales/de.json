@@ -1,0 +1,99 @@
+{
+  "hero": {
+    "title_part1": "Vibrationsfreie Fahrt,",
+    "title_part2": "Maximale Sicherheit.",
+    "subtitle": "Gehäuse aus Luftfahrtaluminium und 3-Achsen-Vibrationsdämpfungssystem.",
+    "cta": "Jetzt Entdecken",
+    "trinity": {
+      "vib": {
+        "title": "Vibrationsdämpfer",
+        "desc": "Filtert 98,5 % der hochfrequenten Vibrationen mit einem 4-Pad-Elastomersystem."
+      },
+      "lock": {
+        "title": "Sichere Verriegelung",
+        "desc": "Zweistufiger Mechanismus, der in 0,3 Sekunden mit einer Hand verriegelt. 15G Stoßfestigkeit."
+      },
+      "univ": {
+        "title": "Universelle Passform",
+        "desc": "22mm–32mm Lenker- und Spiegelhalterung. Kompatibel mit allen Motorrädern, Fahrrädern und Rollern."
+      }
+    }
+  },
+  "usecases": {
+    "hud": "// ANWENDUNGSBEREICHE",
+    "title": "Auf Jeder Straße, Für Jedes Fahrzeug.",
+    "placeholder": "Foto Hinzufügen",
+    "items": {
+      "motorcycle": {
+        "title": "Motorrad",
+        "desc": "Voller Schutz gegen hohe Geschwindigkeiten und Vibrationen."
+      },
+      "scooter": {
+        "title": "Roller",
+        "desc": "Sichere Navigation bei Stadtfahrten."
+      },
+      "atv": {
+        "title": "ATV",
+        "desc": "Maximale Haltbarkeit im Gelände."
+      },
+      "bicycle": {
+        "title": "Fahrrad",
+        "desc": "Leichte Halterung, starker Halt."
+      }
+    }
+  },
+  "specs": {
+    "hud": "// TECHNISCHE DETAILS",
+    "title": "Jedes Teil, Eine Ingenieursentscheidung.",
+    "annotations": {
+      "body": {
+        "label": "CNC AL-6061 GEHÄUSE",
+        "desc": "Luftfahrt-Aluminium"
+      },
+      "screws": {
+        "label": "TITANSCHRAUBEN",
+        "desc": "Rostfrei, korrosionsbeständig"
+      },
+      "module": {
+        "label": "ELASTOMER MODUL",
+        "desc": "4-Pad Vibrationsdämpfung"
+      },
+      "clip": {
+        "label": "EASY LOCK CLIP",
+        "desc": "Einhändige 0,3s Verriegelung"
+      }
+    },
+    "trust": {
+      "title": "Warum MTGrip?",
+      "subtitle": "Jede Komponente ist nach technischen Daten entworfen, die unter realen Straßenbedingungen getestet wurden.",
+      "facts": {
+        "alloy": { "label": "AL-6061 Legierung", "desc": "Gehäuse aus Luftfahrtaluminium" },
+        "vib": { "label": "98,5 % Vibrationsabsorption", "desc": "Vollständige Isolierung im Frequenzband 20–500 Hz" },
+        "ip": { "label": "IP65 Wasserdichtigkeit", "desc": "Staub- und Flüssigkeitsschutz mit O-Ring-Dichtungen" },
+        "shock": { "label": "15G Stoßfestigkeit", "desc": "Verriegelung unter extremen Bedingungen getestet" },
+        "ball": { "label": "360° Kugelgelenk", "desc": "CNC-gefräste, reibungslose Winkeleinstellung" },
+        "mount": { "label": "Universelle Montage", "desc": "Inklusive 22mm–32mm Lenker- + Spiegeladapter" }
+      }
+    }
+  },
+  "install": {
+    "hud": "// INSTALLATION",
+    "title": "In 60 Sekunden Montieren.",
+    "play": "System Ansehen",
+    "playing": "INSTALLATIONSVIDEO",
+    "steps": {
+      "step1": {
+        "title": "Adapterauswahl",
+        "desc": "Wählen Sie den Polycarbonatring passend zu Ihrem Lenker."
+      },
+      "step2": {
+        "title": "Montage",
+        "desc": "Ziehen Sie die Klemme fest und stellen Sie das Kugelgelenk ein."
+      },
+      "step3": {
+        "title": "Verriegelung",
+        "desc": "Legen Sie Ihr Telefon ein und verriegeln Sie es in 0,3s."
+      }
+    }
+  }
+}

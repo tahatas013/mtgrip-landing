@@ -1,0 +1,99 @@
+{
+  "hero": {
+    "title_part1": "Sarsıntısız Sürüş,",
+    "title_part2": "Maksimum Güven.",
+    "subtitle": "Havacılık sınıfı alüminyum gövde ve 3-eksenli titreşim sönümleme sistemi.",
+    "cta": "Hemen İncele",
+    "trinity": {
+      "vib": {
+        "title": "Titreşim Sönümleyici",
+        "desc": "4 yastıklı elastomer sistem ile yüksek frekanslı sarsıntıları %98.5 filtreler."
+      },
+      "lock": {
+        "title": "Güvenli Kilit",
+        "desc": "Tek elle, 0.3 saniyede kilitlenen çift aşamalı mekanizma. 15G darbe dayanımı."
+      },
+      "univ": {
+        "title": "Evrensel Uyum",
+        "desc": "22mm–32mm gidon ve ayna montajı. Tüm motosiklet, bisiklet ve scooter'lara uyumlu."
+      }
+    }
+  },
+  "usecases": {
+    "hud": "// KULLANIM ALANLARI",
+    "title": "Her Yolda, Her Araçta.",
+    "placeholder": "Fotoğraf Ekle",
+    "items": {
+      "motorcycle": {
+        "title": "Motorsiklet",
+        "desc": "Yüksek hız ve titreşime karşı tam koruma."
+      },
+      "scooter": {
+        "title": "Scooter",
+        "desc": "Şehir içi sürüşlerde güvenli navigasyon."
+      },
+      "atv": {
+        "title": "ATV",
+        "desc": "Arazi koşullarında maksimum dayanıklılık."
+      },
+      "bicycle": {
+        "title": "Bisiklet",
+        "desc": "Hafif montaj, güçlü tutuş."
+      }
+    }
+  },
+  "specs": {
+    "hud": "// TEKNİK DETAYLAR",
+    "title": "Her Parça, Bir Mühendislik Kararı.",
+    "annotations": {
+      "body": {
+        "label": "CNC AL-6061 GÖVDE",
+        "desc": "Havacılık sınıfı alüminyum"
+      },
+      "screws": {
+        "label": "TİTANYUM VİDALAR",
+        "desc": "Paslanmaz, korozyona dayanıklı"
+      },
+      "module": {
+        "label": "ELASTOMER MODÜL",
+        "desc": "4 yastıklı titreşim sönümleme"
+      },
+      "clip": {
+        "label": "EASY LOCK CLİP",
+        "desc": "Tek elle 0.3s kilitleme"
+      }
+    },
+    "trust": {
+      "title": "Neden MTGrip?",
+      "subtitle": "Her bileşen, gerçek yol koşullarında test edilmiş mühendislik verileriyle tasarlanmıştır.",
+      "facts": {
+        "alloy": { "label": "AL-6061 Alaşım", "desc": "Havacılık sınıfı alüminyum gövde" },
+        "vib": { "label": "%98.5 Titreşim Absorpsiyonu", "desc": "20–500Hz frekans bandında tam izolasyon" },
+        "ip": { "label": "IP65 Su Sızdırmazlık", "desc": "O-ring contalar ile toz ve sıvı koruması" },
+        "shock": { "label": "15G Darbe Dayanımı", "desc": "Aşırı koşullarda test edilmiş kilitleme" },
+        "ball": { "label": "360° Küresel Mafsal", "desc": "CNC işlenmiş, sürtünmesiz açı ayarı" },
+        "mount": { "label": "Evrensel Montaj", "desc": "22mm–32mm gidon + ayna adaptörleri dahil" }
+      }
+    }
+  },
+  "install": {
+    "hud": "// KURULUM",
+    "title": "60 Saniyede Monte Et.",
+    "play": "Sistemi İzle",
+    "playing": "KURULUM VİDEOSU",
+    "steps": {
+      "step1": {
+        "title": "Adaptör Seçimi",
+        "desc": "Gidon çapınıza uygun polikarbonat ringi seçin."
+      },
+      "step2": {
+        "title": "Montaj",
+        "desc": "Kelepçeyi sıkın ve küresel mafsalı ayarlayın."
+      },
+      "step3": {
+        "title": "Kilitleme",
+        "desc": "Telefonunuzu yerleştirin ve 0.3s'de kilitleyin."
+      }
+    }
+  }
+}

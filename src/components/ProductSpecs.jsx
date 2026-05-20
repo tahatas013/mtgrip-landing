@@ -1,48 +1,18 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
+import { useTranslation } from '../context/LanguageContext';
 
 /* ── Annotation data for QuadLock-style pop-ups around the product ── */
-const annotations = [
-  {
-    label: 'CNC AL-6061 GÖVDE',
-    detail: 'Havacılık sınıfı alüminyum',
-    position: 'top-[12%] left-[5%] md:left-[8%]',
-    dotPosition: 'top-[28%] left-[32%]',
-    lineStyle: { top: '28%', left: '18%', width: '14%', height: '1px' },
-  },
-  {
-    label: 'TİTANYUM VİDALAR',
-    detail: 'Paslanmaz, korozyona dayanıklı',
-    position: 'top-[12%] right-[5%] md:right-[8%]',
-    dotPosition: 'top-[26%] right-[35%]',
-    lineStyle: { top: '26%', right: '18%', width: '17%', height: '1px' },
-  },
-  {
-    label: 'ELASTOMER MODÜL',
-    detail: '4 yastıklı titreşim sönümleme',
-    position: 'bottom-[22%] left-[5%] md:left-[8%]',
-    dotPosition: 'bottom-[34%] left-[38%]',
-    lineStyle: { bottom: '34%', left: '20%', width: '18%', height: '1px' },
-  },
-  {
-    label: 'EASY LOCK CLİP',
-    detail: 'Tek elle 0.3s kilitleme',
-    position: 'bottom-[22%] right-[5%] md:right-[8%]',
-    dotPosition: 'bottom-[36%] right-[36%]',
-    lineStyle: { bottom: '36%', right: '18%', width: '18%', height: '1px' },
-  },
+const annoLayouts = [
+  { id: 'body', position: 'top-[12%] left-[5%] md:left-[8%]', dotPosition: 'top-[28%] left-[32%]', lineStyle: { top: '28%', left: '18%', width: '14%', height: '1px' } },
+  { id: 'screws', position: 'top-[12%] right-[5%] md:right-[8%]', dotPosition: 'top-[26%] right-[35%]', lineStyle: { top: '26%', right: '18%', width: '17%', height: '1px' } },
+  { id: 'module', position: 'bottom-[22%] left-[5%] md:left-[8%]', dotPosition: 'bottom-[34%] left-[38%]', lineStyle: { bottom: '34%', left: '20%', width: '18%', height: '1px' } },
+  { id: 'clip', position: 'bottom-[22%] right-[5%] md:right-[8%]', dotPosition: 'bottom-[36%] right-[36%]', lineStyle: { bottom: '36%', right: '18%', width: '18%', height: '1px' } },
 ];
 
-/* ── "Neden MTGrip?" trust facts ── */
-const trustFacts = [
-  { label: 'AL-6061 Alaşım', desc: 'Havacılık sınıfı alüminyum gövde' },
-  { label: '%98.5 Titreşim Absorpsiyonu', desc: '20–500Hz frekans bandında tam izolasyon' },
-  { label: 'IP65 Su Sızdırmazlık', desc: 'O-ring contalar ile toz ve sıvı koruması' },
-  { label: '15G Darbe Dayanımı', desc: 'Aşırı koşullarda test edilmiş kilitleme' },
-  { label: '360° Küresel Mafsal', desc: 'CNC işlenmiş, sürtünmesiz açı ayarı' },
-  { label: 'Evrensel Montaj', desc: '22mm–32mm gidon + ayna adaptörleri dahil' },
-];
+/* ── "{t('specs.trust.title')}" trust facts ── */
+const trustIds = ['alloy', 'vib', 'ip', 'shock', 'ball', 'mount'];
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 20 },
@@ -50,6 +20,7 @@ const fadeUp = (delay = 0) => ({
 });
 
 const ProductSpecs = () => {
+  const { t } = useTranslation();
   const annoRef = useRef(null);
   const trustRef = useRef(null);
   const annoInView = useInView(annoRef, { once: true, margin: '-60px' });
@@ -69,10 +40,10 @@ const ProductSpecs = () => {
             animate={annoInView ? 'visible' : 'hidden'}
           >
             <span className="text-hud text-silver/50 tracking-[0.45em] block mb-3">
-              // TEKNİK DETAYLAR
+              {t('specs.hud')}
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-charcoal uppercase tracking-tight">
-              Her Parça, Bir Mühendislik Kararı.
+              {t('specs.title')}
             </h2>
           </motion.div>
 
@@ -90,7 +61,7 @@ const ProductSpecs = () => {
             />
 
             {/* Annotation pop-ups */}
-            {annotations.map((ann, i) => (
+            {annoLayouts.map((ann, i) => (
               <React.Fragment key={i}>
                 {/* Connector line */}
                 <motion.div
@@ -120,10 +91,10 @@ const ProductSpecs = () => {
                 >
                   <div className="bg-white/90 backdrop-blur-md border border-card-border rounded-xl px-4 py-3 shadow-sm">
                     <span className="block text-xs font-bold text-charcoal uppercase tracking-wide">
-                      {ann.label}
+                      {t(`specs.annotations.${ann.id}.label`)}
                     </span>
                     <span className="block text-[11px] text-silver font-light mt-0.5">
-                      {ann.detail}
+                      {t(`specs.annotations.${ann.id}.desc`)}
                     </span>
                   </div>
                 </motion.div>
@@ -148,13 +119,13 @@ const ProductSpecs = () => {
               Neden MTGrip?
             </h2>
             <p className="text-silver font-light max-w-lg mx-auto">
-              Her bileşen, gerçek yol koşullarında test edilmiş mühendislik verileriyle tasarlanmıştır.
+              {t('specs.trust.subtitle')}
             </p>
           </motion.div>
 
           {/* Trust grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {trustFacts.map((fact, i) => (
+            {trustIds.map((id, i) => (
               <motion.div
                 key={i}
                 className="flex items-start gap-4 p-5 rounded-xl border border-card-border bg-[#FAFAFA] hover:border-mtgrip/30 hover:shadow-sm transition-all duration-200"
@@ -165,10 +136,10 @@ const ProductSpecs = () => {
                 <CheckCircle2 size={20} className="text-mtgrip mt-0.5 shrink-0" strokeWidth={2} />
                 <div>
                   <span className="block text-sm font-bold text-charcoal uppercase tracking-tight">
-                    {fact.label}
+                    {t(`specs.trust.facts.${id}.label`)}
                   </span>
                   <span className="block text-xs text-silver font-light mt-1 leading-relaxed">
-                    {fact.desc}
+                    {t(`specs.trust.facts.${id}.desc`)}
                   </span>
                 </div>
               </motion.div>

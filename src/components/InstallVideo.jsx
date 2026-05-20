@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Play, Pause } from 'lucide-react';
+import { useTranslation } from '../context/LanguageContext';
 
 const InstallVideo = () => {
+  const { t } = useTranslation();
   const ref = useRef(null);
   const videoRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -30,7 +32,7 @@ const InstallVideo = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          // KURULUM REHBERİ
+          {t('install.hud')} REHBERİ
         </motion.span>
         <motion.h2
           className="text-3xl md:text-5xl font-black text-charcoal uppercase tracking-tight"

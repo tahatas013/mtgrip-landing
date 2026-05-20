@@ -1,23 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Waves, Settings } from 'lucide-react';
+import { useTranslation } from '../context/LanguageContext';
 
-const trinity = [
-  {
-    icon: Waves,
-    title: 'Titreşim Sönümleyici',
-    desc: '4 yastıklı elastomer sistem ile yüksek frekanslı sarsıntıları %98.5 filtreler.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Güvenli Kilit',
-    desc: 'Tek elle, 0.3 saniyede kilitlenen çift aşamalı mekanizma. 15G darbe dayanımı.',
-  },
-  {
-    icon: Settings,
-    title: 'Evrensel Uyum',
-    desc: '22mm–32mm gidon ve ayna montajı. Tüm motosiklet, bisiklet ve scooter\'lara uyumlu.',
-  },
+const trinityIcons = [
+  { id: 'vib', icon: Waves },
+  { id: 'lock', icon: ShieldCheck },
+  { id: 'univ', icon: Settings },
 ];
 
 const fadeUp = {
@@ -30,6 +19,8 @@ const fadeUp = {
 };
 
 const Hero = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* ═══════════ HERO — Full-screen video ═══════════ */}
@@ -68,8 +59,8 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            Sarsıntısız Sürüş,{' '}
-            <span className="text-mtgrip">Maksimum Güven.</span>
+            {t('hero.title_part1')}{' '}
+            <span className="text-mtgrip">{t('hero.title_part2')}</span>
           </motion.h1>
 
           {/* Sub */}
@@ -79,7 +70,7 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            Havacılık sınıfı alüminyum gövde ve 3-eksenli titreşim sönümleme sistemi.
+            {t('hero.subtitle')}
           </motion.p>
 
           {/* CTA */}
@@ -89,7 +80,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
-            Hemen İncele
+            {t('hero.cta')}
           </motion.button>
         </div>
       </section>
@@ -98,7 +89,7 @@ const Hero = () => {
       <section className="relative w-full bg-white border-b border-card-border">
         <div className="max-w-5xl mx-auto px-6 py-14 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            {trinity.map((item, i) => {
+            {trinityIcons.map((item, i) => {
               const Icon = item.icon;
               return (
                 <motion.div
@@ -114,10 +105,10 @@ const Hero = () => {
                     <Icon size={28} className="text-mtgrip" strokeWidth={1.5} />
                   </div>
                   <h3 className="text-lg font-bold text-charcoal uppercase tracking-tight mb-2">
-                    {item.title}
+                    {t(`hero.trinity.${item.id}.title`)}
                   </h3>
                   <p className="text-silver text-sm font-light leading-relaxed max-w-[260px]">
-                    {item.desc}
+                    {t(`hero.trinity.${item.id}.desc`)}
                   </p>
                 </motion.div>
               );
