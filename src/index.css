@@ -10,7 +10,6 @@
   --color-mtgrip: #FFB800;
 
   --font-sans: "Inter", sans-serif;
-  --font-logo: "Inter", sans-serif;
   --font-mono: "Space Mono", monospace;
 }
 
@@ -19,7 +18,7 @@
     @apply text-charcoal font-sans;
     overflow-x: clip;
     min-height: 100vh;
-    background-color: #F5F5F7;
+    background-color: #FFFFFF;
   }
 
   ::selection {
@@ -29,49 +28,42 @@
 }
 
 @layer utilities {
-  /* ── Glassmorphism card ── */
-  .glass {
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid #E5E5E5;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-  }
-
-  /* ── Gradient text: MTGrip Yellow → Industrial Silver ── */
-  .text-gradient-industrial {
+  /* ── Video overlay gradient ── */
+  .video-overlay {
     background: linear-gradient(
-      120deg,
-      #FFB800 0%,
-      #C8A000 22%,
-      #86868B 58%,
-      #D2D2D7 100%
+      to bottom,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.0) 30%,
+      rgba(0, 0, 0, 0.0) 50%,
+      rgba(0, 0, 0, 0.55) 100%
     );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
-  /* ── Stage ambient floor light ── */
-  .stage-light {
-    background:
-      radial-gradient(ellipse at 50% 90%, rgba(255, 184, 0, 0.055) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.55) 0%, transparent 60%);
-    pointer-events: none;
+  /* ── Glassmorphism card (light) ── */
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid #E5E5E5;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
   }
 
-  /* ── Soft drop-shadow for product images ── */
-  .ambient-shadow {
-    filter: drop-shadow(0 28px 44px rgba(0, 0, 0, 0.08))
-            drop-shadow(0 6px 10px rgba(0, 0, 0, 0.04));
+  /* ── Annotation connector line ── */
+  .annotation-line {
+    position: absolute;
+    background: #FFB800;
+    z-index: 5;
+  }
+  .annotation-line-h {
+    height: 1px;
+    width: 40px;
+  }
+  .annotation-line-v {
+    width: 1px;
+    height: 40px;
   }
 
-  /* ── Blend product images with light background ── */
-  .product-blend {
-    mix-blend-mode: multiply;
-  }
-
-  /* ── Space Mono HUD label — blueprint precision ── */
+  /* ── HUD mono label ── */
   .text-hud {
     font-family: "Space Mono", monospace;
     font-size: 10px;
@@ -80,15 +72,7 @@
     text-transform: uppercase;
   }
 
-  /* ── Blueprint graph paper ── */
-  .blueprint-grid {
-    background-size: 20px 20px;
-    background-image:
-      linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  }
-
-  /* ── Spec chip: default & accent ── */
+  /* ── Spec chip ── */
   .spec-chip {
     font-family: "Space Mono", monospace;
     font-size: 11px;
@@ -96,37 +80,31 @@
     padding: 4px 12px;
     border-radius: 999px;
     border: 1px solid #E5E5E5;
-    background: rgba(255, 255, 255, 0.70);
+    background: rgba(255, 255, 255, 0.85);
     color: #424245;
     display: inline-flex;
     align-items: center;
+    white-space: nowrap;
   }
-
   .spec-chip-accent {
-    border-color: rgba(255, 184, 0, 0.35);
+    border-color: rgba(255, 184, 0, 0.4);
     background: rgba(255, 184, 0, 0.08);
-    color: #C8A000;
+    color: #b38600;
     font-weight: 700;
   }
 
-  .font-light {
-    font-weight: 300;
+  /* ── Soft shadow for product images ── */
+  .ambient-shadow {
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.10))
+            drop-shadow(0 4px 8px rgba(0, 0, 0, 0.06));
   }
 
-  /* ── Hide scrollbar across all browsers ── */
-  .hide-scrollbar {
-    scrollbar-width: none;       /* Firefox */
-    -ms-overflow-style: none;    /* IE / Edge */
+  /* ── CTA glow pulse ── */
+  @keyframes cta-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 184, 0, 0); }
   }
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;               /* Chrome / Safari / Opera */
-  }
-
-  /* ── GPU compositing hints ── */
-  .will-change-transform {
-    will-change: transform;
-  }
-  .will-change-opacity {
-    will-change: opacity;
+  .cta-glow {
+    animation: cta-pulse 2.5s ease-in-out infinite;
   }
 }

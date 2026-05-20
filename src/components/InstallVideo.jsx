@@ -63,7 +63,7 @@ const InstallVideo = () => {
             <video
               ref={videoRef}
               className="w-full h-full object-cover"
-              poster="/assets/images/hero-mount.png"
+              poster="/assets/images/mtgrip-mt050.png"
               playsInline
               loop
               preload="metadata"

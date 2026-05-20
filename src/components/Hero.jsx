@@ -1,137 +1,131 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import mtgripContent from '../data/mtgrip_content.json';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ShieldCheck, Waves, Settings } from 'lucide-react';
 
-const CORNER_CLASS = {
-  tl: 'top-6 left-6',
-  tr: 'top-6 right-6 text-right',
-  bl: 'bottom-8 left-6',
-  br: 'bottom-8 right-6 text-right',
+const trinity = [
+  {
+    icon: Waves,
+    title: 'Titreşim Sönümleyici',
+    desc: '4 yastıklı elastomer sistem ile yüksek frekanslı sarsıntıları %98.5 filtreler.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Güvenli Kilit',
+    desc: 'Tek elle, 0.3 saniyede kilitlenen çift aşamalı mekanizma. 15G darbe dayanımı.',
+  },
+  {
+    icon: Settings,
+    title: 'Evrensel Uyum',
+    desc: '22mm–32mm gidon ve ayna montajı. Tüm motosiklet, bisiklet ve scooter\'lara uyumlu.',
+  },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
+  }),
 };
 
-const springEase = (t) => 1 - Math.pow(1 - t, 5);
-
-/* ── Logo: MT charcoal / GRIP yellow ── */
-const MTGripLogo = () => (
-  <div
-    className="absolute top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none select-none"
-    style={{
-      fontFamily: 'Inter, sans-serif',
-      fontWeight: 700,
-      fontSize: '28px',
-      letterSpacing: '0.35em',
-      textTransform: 'uppercase',
-      lineHeight: 1,
-    }}
-  >
-    <span style={{ color: '#1D1D1F' }}>MT</span>
-    <span style={{ color: '#FFB800' }}>GRIP</span>
-  </div>
-);
-
 const Hero = () => {
-  const { hero, meta } = mtgripContent;
-  const containerRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  /* ── YOLA: z-10, slides LEFT ── */
-  const leftX = useTransform(scrollYProgress, [0, 0.62], ['0vw', '-85vw'], { ease: springEase });
-  /* ── HÜKMEDİN: z-10, slides RIGHT ── */
-  const rightX = useTransform(scrollYProgress, [0, 0.62], ['0vw', '85vw'], { ease: springEase });
-  /* ── Both fade as curtains part ── */
-  const curtainOpacity = useTransform(scrollYProgress, [0, 0.48, 0.76], [1, 0.80, 0]);
-
-  /* ── Product: starts FULLY HIDDEN, emerges only as curtains part ── */
-  const imgScale   = useTransform(scrollYProgress, [0.15, 0.62], [0.4, 1.18], { ease: springEase });
-  const imgOpacity = useTransform(scrollYProgress, [0.15, 0.45], [0, 1]);
-  const imgY       = useTransform(scrollYProgress, [0.15, 0.62], ['12%', '-6%'], { ease: springEase });
-
-  /* ── CTA fades in after curtains part ── */
-  const ctaOpacity = useTransform(scrollYProgress, [0.40, 0.72], [0, 1]);
-  const ctaY       = useTransform(scrollYProgress, [0.40, 0.72], ['2rem', '0rem'], { ease: springEase });
-
-  const DISPLAY_SIZE = 'clamp(4.5rem, 13vw, 18rem)';
-
   return (
-    <section ref={containerRef} className="relative w-full h-[220vh]">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+    <>
+      {/* ═══════════ HERO — Full-screen video ═══════════ */}
+      <section className="relative w-full h-[85vh] md:h-screen overflow-hidden bg-charcoal">
 
-        {/* Subtle stage light */}
-        <div className="absolute inset-0 stage-light" />
-
-
-
-        {/* Logo */}
-        <MTGripLogo />
-
-        {/* ── Curtain container: vertically centered column, words split horizontally ── */}
-        <motion.div
-          className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none overflow-hidden"
-          style={{ opacity: curtainOpacity }}
+        {/* Background video — auto, muted, loop */}
+        <video
+          className="absolute inset-0 w-full h-full object-contain bg-[#e0e0e0] p-4 md:p-6"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/assets/images/mtgrip-mt050.png"
         >
-          {/* YOLA → slides LEFT */}
-          <motion.div className="w-full flex justify-end pr-[3vw]" style={{ x: leftX }}>
-            <span
-              className="text-gradient-industrial font-black uppercase select-none whitespace-nowrap leading-none tracking-tighter"
-              style={{ fontSize: DISPLAY_SIZE, fontWeight: 900, display: 'block' }}
-            >
-              {hero.headline_left}
+          <source src="/assets/videos/hero-loop.mp4" type="video/mp4" />
+        </video>
+
+        {/* Dark gradient overlay for readability */}
+        <div className="absolute inset-0 video-overlay" />
+
+        {/* Content — bottom-aligned for thumb reach on mobile */}
+        <div className="relative z-10 h-full flex flex-col justify-end items-center text-center pb-12 md:pb-20 px-6">
+          
+          {/* Logo */}
+          <div className="absolute top-6 left-1/2 -translate-x-1/2">
+            <span className="text-2xl md:text-3xl font-extrabold tracking-[0.25em] uppercase select-none">
+              <span className="text-white">MT</span>
+              <span className="text-mtgrip">GRIP</span>
             </span>
-          </motion.div>
+          </div>
 
-          {/* Fixed gap between the two words */}
-          <div style={{ height: 'clamp(0.5rem, 1.5vw, 2rem)', flexShrink: 0 }} />
-
-          {/* HÜKMEDİN → slides RIGHT, separate z-layer via isolation */}
-          <motion.div className="w-full flex justify-start pl-[3vw]" style={{ x: rightX, isolation: 'isolate' }}>
-            <span
-              className="text-gradient-industrial font-black uppercase select-none whitespace-nowrap leading-none tracking-tighter"
-              style={{ fontSize: DISPLAY_SIZE, fontWeight: 900, display: 'block' }}
-            >
-              {hero.headline_right}
-            </span>
-          </motion.div>
-        </motion.div>
-
-        {/* ── Product: z-20, above both curtains, emerges from center ── */}
-        <motion.div
-          className="absolute z-20 w-[240px] h-[240px] md:w-[380px] md:h-[380px] pointer-events-none"
-          style={{ scale: imgScale, opacity: imgOpacity, y: imgY }}
-        >
-          <motion.div
-            className="w-full h-full"
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', repeatType: 'mirror' }}
+          {/* Headline */}
+          <motion.h1
+            className="text-3xl md:text-5xl lg:text-6xl font-black text-white uppercase leading-tight tracking-tight max-w-3xl mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            <img
-              src="/assets/images/hero-mount.png"
-              alt="MTGrip Pro"
-              className="w-full h-full object-contain ambient-shadow product-blend"
-            />
-            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-32 h-4 bg-mtgrip/12 blur-3xl rounded-full" />
-          </motion.div>
-        </motion.div>
+            Sarsıntısız Sürüş,{' '}
+            <span className="text-mtgrip">Maksimum Güven.</span>
+          </motion.h1>
 
-        {/* ── CTA — z-30, above product ── */}
-        <motion.div
-          className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-4 z-30 px-6"
-          style={{ opacity: ctaOpacity, y: ctaY }}
-        >
-          <p className="text-silver text-sm md:text-base text-center max-w-xs leading-relaxed font-light">
-            {hero.subheadline}
-          </p>
-          <button className="px-9 py-3.5 bg-charcoal text-white text-xs font-semibold rounded-full uppercase tracking-[0.25em] hover:bg-charcoal-light active:scale-95 transition-all duration-200 cursor-pointer">
-            {hero.ctaText}
-          </button>
-          <div className="w-px h-10 bg-gradient-to-b from-silver/25 to-transparent mt-1" />
-        </motion.div>
+          {/* Sub */}
+          <motion.p
+            className="text-white/70 text-base md:text-lg font-light max-w-md mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            Havacılık sınıfı alüminyum gövde ve 3-eksenli titreşim sönümleme sistemi.
+          </motion.p>
 
-      </div>
-    </section>
+          {/* CTA */}
+          <motion.button
+            className="px-10 py-4 bg-mtgrip text-charcoal font-bold text-sm md:text-base rounded-full uppercase tracking-[0.2em] cta-glow hover:brightness-110 active:scale-95 transition-all duration-200 cursor-pointer"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            Hemen İncele
+          </motion.button>
+        </div>
+      </section>
+
+      {/* ═══════════ TRINITY — 3 Benefit Panel ═══════════ */}
+      <section className="relative w-full bg-white border-b border-card-border">
+        <div className="max-w-5xl mx-auto px-6 py-14 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            {trinity.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={i}
+                  className="flex flex-col items-center text-center"
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                  custom={i}
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-[#FFF8E1] border border-mtgrip/20 flex items-center justify-center mb-5">
+                    <Icon size={28} className="text-mtgrip" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-lg font-bold text-charcoal uppercase tracking-tight mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-silver text-sm font-light leading-relaxed max-w-[260px]">
+                    {item.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import Hero from './components/Hero';
-import HorizontalSlider from './components/HorizontalSlider';
-import ProductFeatures from './components/ProductFeatures';
+import ProductSpecs from './components/ProductSpecs';
 import InstallVideo from './components/InstallVideo';
 
 function App() {
@@ -11,8 +10,7 @@ function App() {
       style={{ overflowX: 'clip' }}
     >
       <Hero />
-      <HorizontalSlider />
-      <ProductFeatures />
+      <ProductSpecs />
       <InstallVideo />
     </main>
   );

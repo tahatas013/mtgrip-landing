@@ -1,184 +1,182 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Activity, Shield, Maximize, RefreshCw, X, ChevronDown } from 'lucide-react';
-import mtgripContent from '../data/mtgrip_content.json';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { CheckCircle2 } from 'lucide-react';
 
-const getIconForPillar = (id, size = 24) => {
-  const cls = `text-mtgrip`;
-  switch (id) {
-    case 'vibration': return <Activity size={size} className={cls} strokeWidth={1.5} />;
-    case 'lock':      return <Shield   size={size} className={cls} strokeWidth={1.5} />;
-    case 'universal': return <Maximize size={size} className={cls} strokeWidth={1.5} />;
-    case 'rotation':  return <RefreshCw size={size} className={cls} strokeWidth={1.5} />;
-    default:          return <Activity size={size} className={cls} strokeWidth={1.5} />;
-  }
-};
+/* ── Annotation data for QuadLock-style pop-ups around the product ── */
+const annotations = [
+  {
+    label: 'CNC AL-6061 GÖVDE',
+    detail: 'Havacılık sınıfı alüminyum',
+    position: 'top-[12%] left-[5%] md:left-[8%]',
+    dotPosition: 'top-[28%] left-[32%]',
+    lineStyle: { top: '28%', left: '18%', width: '14%', height: '1px' },
+  },
+  {
+    label: 'TİTANYUM VİDALAR',
+    detail: 'Paslanmaz, korozyona dayanıklı',
+    position: 'top-[12%] right-[5%] md:right-[8%]',
+    dotPosition: 'top-[26%] right-[35%]',
+    lineStyle: { top: '26%', right: '18%', width: '17%', height: '1px' },
+  },
+  {
+    label: 'ELASTOMER MODÜL',
+    detail: '4 yastıklı titreşim sönümleme',
+    position: 'bottom-[22%] left-[5%] md:left-[8%]',
+    dotPosition: 'bottom-[34%] left-[38%]',
+    lineStyle: { bottom: '34%', left: '20%', width: '18%', height: '1px' },
+  },
+  {
+    label: 'EASY LOCK CLİP',
+    detail: 'Tek elle 0.3s kilitleme',
+    position: 'bottom-[22%] right-[5%] md:right-[8%]',
+    dotPosition: 'bottom-[36%] right-[36%]',
+    lineStyle: { bottom: '36%', right: '18%', width: '18%', height: '1px' },
+  },
+];
 
-const BENTO_SPAN = ['col-span-1 lg:col-span-2', 'col-span-1', 'col-span-1', 'col-span-1 lg:col-span-2'];
+/* ── "Neden MTGrip?" trust facts ── */
+const trustFacts = [
+  { label: 'AL-6061 Alaşım', desc: 'Havacılık sınıfı alüminyum gövde' },
+  { label: '%98.5 Titreşim Absorpsiyonu', desc: '20–500Hz frekans bandında tam izolasyon' },
+  { label: 'IP65 Su Sızdırmazlık', desc: 'O-ring contalar ile toz ve sıvı koruması' },
+  { label: '15G Darbe Dayanımı', desc: 'Aşırı koşullarda test edilmiş kilitleme' },
+  { label: '360° Küresel Mafsal', desc: 'CNC işlenmiş, sürtünmesiz açı ayarı' },
+  { label: 'Evrensel Montaj', desc: '22mm–32mm gidon + ayna adaptörleri dahil' },
+];
+
+const fadeUp = (delay = 0) => ({
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] } },
+});
 
 const ProductSpecs = () => {
-  const { specs } = mtgripContent;
-  const [selectedId, setSelectedId] = useState(null);
-  const selectedPillar = specs.pillars.find(p => p.id === selectedId);
+  const annoRef = useRef(null);
+  const trustRef = useRef(null);
+  const annoInView = useInView(annoRef, { once: true, margin: '-60px' });
+  const trustInView = useInView(trustRef, { once: true, margin: '-60px' });
 
   return (
-    <section className="relative w-full pb-32 pt-16 bg-transparent">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <>
+      {/* ═══════════ TECHNICAL TRANSPARENCY — Product Annotation ═══════════ */}
+      <section ref={annoRef} className="relative w-full bg-[#F8F8FA] py-20 md:py-28 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6">
 
-        {/* Header */}
-        <div className="flex items-center justify-center gap-4 mb-16">
-          <div className="w-1.5 h-1.5 rounded-full bg-mtgrip shadow-[0_0_8px_rgba(255,184,0,0.5)]" />
-          <h2 className="text-sm font-mono text-charcoal uppercase tracking-[0.4em]">
-            // {specs.title}
-          </h2>
-          <div className="w-1.5 h-1.5 rounded-full bg-mtgrip shadow-[0_0_8px_rgba(255,184,0,0.5)]" />
-        </div>
+          {/* Header */}
+          <motion.div
+            className="text-center mb-12 md:mb-16"
+            variants={fadeUp(0)}
+            initial="hidden"
+            animate={annoInView ? 'visible' : 'hidden'}
+          >
+            <span className="text-hud text-silver/50 tracking-[0.45em] block mb-3">
+              // TEKNİK DETAYLAR
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-charcoal uppercase tracking-tight">
+              Her Parça, Bir Mühendislik Kararı.
+            </h2>
+          </motion.div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {specs.pillars.map((pillar, index) => (
-            <motion.div
-              layoutId={`card-${pillar.id}`}
-              key={pillar.id}
-              onClick={() => setSelectedId(pillar.id)}
-              className={`relative flex flex-col justify-between p-8 rounded-2xl glass overflow-hidden group cursor-pointer ${BENTO_SPAN[index]}`}
-              whileHover={{ scale: 1.015, boxShadow: '0 8px 40px rgba(0,0,0,0.08)' }}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-            >
-              {/* Ghost watermark icon */}
-              <div className="absolute -bottom-6 -right-6 opacity-[0.04] scale-[4.5] pointer-events-none">
-                {getIconForPillar(pillar.id, 32)}
-              </div>
+          {/* Product + Annotations */}
+          <div className="relative w-full max-w-2xl mx-auto aspect-square">
 
-              {/* Icon row */}
-              <div className="flex items-center gap-3 mb-8 relative z-10">
-                <div className="p-2.5 rounded-lg bg-[#F5F5F7] border border-card-border flex items-center justify-center group-hover:border-mtgrip/30 transition-colors duration-300">
-                  {getIconForPillar(pillar.id, 22)}
-                </div>
-                <span className="text-silver font-mono text-[11px] tracking-[0.3em] uppercase">
-                  SYS.{pillar.id.substring(0, 3).toUpperCase()}
-                </span>
-              </div>
-
-              {/* Text */}
-              <div className="mt-auto relative z-10">
-                <h3 className="text-xl font-bold text-charcoal uppercase leading-tight mb-2 tracking-tight">
-                  {pillar.title}
-                </h3>
-                <p className="text-slate-500 text-sm font-light leading-relaxed">
-                  {pillar.description}
-                </p>
-              </div>
-
-              {/* Tap hint */}
-              <div className="absolute bottom-4 right-5 opacity-0 group-hover:opacity-40 transition-opacity duration-300">
-                <span className="font-mono text-[9px] tracking-widest text-charcoal uppercase">TAP TO EXPAND</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Expanded Blueprint Modal */}
-      <AnimatePresence>
-        {selectedId && selectedPillar && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-5 md:p-12">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-[#F5F5F7]/70 backdrop-blur-xl"
-              onClick={() => setSelectedId(null)}
+            {/* Central product image */}
+            <motion.img
+              src="/assets/images/mtgrip-mt050.png"
+              alt="MTGrip Pro detaylı görünüm"
+              className="absolute inset-0 w-full h-full object-contain ambient-shadow p-8 md:p-12"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={annoInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.7, delay: 0.2 }}
             />
 
-            {/* Expanded Card */}
-            <motion.div
-              layoutId={`card-${selectedPillar.id}`}
-              className="relative w-full max-w-2xl bg-white/90 border border-[#E5E5E5] rounded-2xl shadow-2xl overflow-hidden blueprint-grid"
-              style={{ backdropFilter: 'blur(24px)' }}
-            >
-              {/* Close button */}
-              <button
-                className="absolute top-5 right-5 z-30 w-8 h-8 flex items-center justify-center rounded-full bg-[#F5F5F7] border border-card-border text-silver hover:text-charcoal hover:border-charcoal/20 transition-all duration-200"
-                onClick={() => setSelectedId(null)}
-              >
-                <X size={15} strokeWidth={2} />
-              </button>
+            {/* Annotation pop-ups */}
+            {annotations.map((ann, i) => (
+              <React.Fragment key={i}>
+                {/* Connector line */}
+                <motion.div
+                  className="absolute bg-mtgrip/60 hidden md:block"
+                  style={ann.lineStyle}
+                  initial={{ scaleX: 0 }}
+                  animate={annoInView ? { scaleX: 1 } : {}}
+                  transition={{ duration: 0.4, delay: 0.4 + i * 0.12 }}
+                />
 
-              {/* Blueprint content */}
-              <div className="p-8 md:p-12">
-
-                {/* Centered Logo + Title Block (takes ~50% width, centered) */}
-                <div className="flex justify-center mb-8 border-b border-[#E5E5E5] pb-8">
-                  <div className="w-full max-w-md flex flex-col items-center text-center">
-                    <div className="p-5 rounded-2xl bg-[#F5F5F7] border border-[#E5E5E5] mb-5">
-                      {getIconForPillar(selectedPillar.id, 48)}
-                    </div>
-                    <span className="text-silver font-mono text-[10px] tracking-[0.3em] uppercase block mb-2">
-                      SYS.{selectedPillar.id.substring(0, 3).toUpperCase()} — BLUEPRINT
-                    </span>
-                    <h3 className="text-3xl md:text-4xl font-black text-charcoal uppercase leading-tight tracking-tight">
-                      {selectedPillar.title}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Details */}
-                <div className="mb-8">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-1.5 h-1.5 bg-mtgrip" />
-                    <span className="font-mono text-[11px] tracking-widest uppercase text-charcoal-light">
-                      {selectedPillar.back_content.subtitle}
-                    </span>
-                  </div>
-                  <p className="text-slate-600 font-light leading-relaxed text-base md:text-lg max-w-lg">
-                    {selectedPillar.back_content.details}
-                  </p>
-                </div>
-
-                {/* CAD / Spec table — dynamic from JSON */}
-                <div className="grid grid-cols-2 font-mono text-xs text-slate-500 border-t border-l border-[#E5E5E5] mb-10 w-full max-w-sm">
-                  <div className="border-b border-r border-[#E5E5E5] p-2.5 uppercase">
-                    <span className="text-silver-light">MATERIAL</span>
-                    <span className="block text-charcoal font-bold mt-0.5">{selectedPillar.blueprint.material}</span>
-                  </div>
-                  <div className="border-b border-r border-[#E5E5E5] p-2.5 uppercase">
-                    <span className="text-silver-light">TOLERANCE</span>
-                    <span className="block text-charcoal font-bold mt-0.5">{selectedPillar.blueprint.tolerance}</span>
-                  </div>
-                  <div className="border-b border-r border-[#E5E5E5] p-2.5 uppercase">
-                    <span className="text-silver-light">FINISH</span>
-                    <span className="block text-charcoal font-bold mt-0.5">{selectedPillar.blueprint.finish}</span>
-                  </div>
-                  <div className="border-b border-r border-[#E5E5E5] p-2.5 uppercase">
-                    <span className="text-silver-light">STATUS</span>
-                    <span className="block text-mtgrip font-bold mt-0.5">{selectedPillar.blueprint.status}</span>
-                  </div>
-                </div>
-
-                {/* Swipe down hint */}
-                <div
-                  className="flex flex-col items-center gap-1.5 opacity-40 hover:opacity-80 transition-opacity cursor-pointer"
-                  onClick={() => setSelectedId(null)}
+                {/* Pulsing dot on product */}
+                <motion.div
+                  className={`absolute w-2.5 h-2.5 rounded-full bg-mtgrip hidden md:block ${ann.dotPosition}`}
+                  initial={{ scale: 0 }}
+                  animate={annoInView ? { scale: [0, 1.3, 1] } : {}}
+                  transition={{ duration: 0.4, delay: 0.5 + i * 0.12 }}
                 >
-                  <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-slate-400">Swipe down to close</span>
-                  <motion.div
-                    animate={{ y: [0, 5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    <ChevronDown size={18} className="text-slate-400" strokeWidth={1.5} />
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
+                  <span className="absolute inset-0 rounded-full bg-mtgrip/40 animate-ping" />
+                </motion.div>
+
+                {/* Label card */}
+                <motion.div
+                  className={`absolute ${ann.position} z-10`}
+                  variants={fadeUp(0.5 + i * 0.12)}
+                  initial="hidden"
+                  animate={annoInView ? 'visible' : 'hidden'}
+                >
+                  <div className="bg-white/90 backdrop-blur-md border border-card-border rounded-xl px-4 py-3 shadow-sm">
+                    <span className="block text-xs font-bold text-charcoal uppercase tracking-wide">
+                      {ann.label}
+                    </span>
+                    <span className="block text-[11px] text-silver font-light mt-0.5">
+                      {ann.detail}
+                    </span>
+                  </div>
+                </motion.div>
+              </React.Fragment>
+            ))}
           </div>
-        )}
-      </AnimatePresence>
-    </section>
+        </div>
+      </section>
+
+      {/* ═══════════ NEDEN MTGRIP? — Trust Section ═══════════ */}
+      <section ref={trustRef} className="relative w-full bg-white py-20 md:py-28 border-t border-card-border">
+        <div className="max-w-5xl mx-auto px-6">
+
+          {/* Header */}
+          <motion.div
+            className="text-center mb-14"
+            variants={fadeUp(0)}
+            initial="hidden"
+            animate={trustInView ? 'visible' : 'hidden'}
+          >
+            <h2 className="text-3xl md:text-4xl font-black text-charcoal uppercase tracking-tight mb-3">
+              Neden MTGrip?
+            </h2>
+            <p className="text-silver font-light max-w-lg mx-auto">
+              Her bileşen, gerçek yol koşullarında test edilmiş mühendislik verileriyle tasarlanmıştır.
+            </p>
+          </motion.div>
+
+          {/* Trust grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {trustFacts.map((fact, i) => (
+              <motion.div
+                key={i}
+                className="flex items-start gap-4 p-5 rounded-xl border border-card-border bg-[#FAFAFA] hover:border-mtgrip/30 hover:shadow-sm transition-all duration-200"
+                variants={fadeUp(i * 0.07)}
+                initial="hidden"
+                animate={trustInView ? 'visible' : 'hidden'}
+              >
+                <CheckCircle2 size={20} className="text-mtgrip mt-0.5 shrink-0" strokeWidth={2} />
+                <div>
+                  <span className="block text-sm font-bold text-charcoal uppercase tracking-tight">
+                    {fact.label}
+                  </span>
+                  <span className="block text-xs text-silver font-light mt-1 leading-relaxed">
+                    {fact.desc}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 
