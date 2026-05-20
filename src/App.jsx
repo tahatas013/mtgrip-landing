@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from './components/Hero';
+import UseCases from './components/UseCases';
 import ProductSpecs from './components/ProductSpecs';
 import InstallVideo from './components/InstallVideo';
 
@@ -10,6 +11,7 @@ function App() {
       style={{ overflowX: 'clip' }}
     >
       <Hero />
+      <UseCases />
       <ProductSpecs />
       <InstallVideo />
     </main>
